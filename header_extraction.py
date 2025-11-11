@@ -46,15 +46,13 @@ def count_html_headers(page_title: str, language: str) -> json:
         search_results = wikipedia.search(query=page_title)
         if not search_results:
             print(f"Error: the {language} page for {page_title} was not found.  ")
-            return " "
+            return None
 
         # Get Wikipedia page HTML
-        page = wikipedia.WikipediaPage(title=search_results[0])
+        page = wikipedia.page(page_title, auto_suggest=False)
         html = page.html()
         soup_html_parser = BeautifulSoup(html, "html.parser")
         # soup_lxml_parser = BeautifulSoup(html, "lxml-html")
-
-        # page = wikipedia.page(page_title, auto_suggest=False)
 
         # Find main content area in HTML
         content = soup_html_parser.find("div", class_="mw-parser-output")
@@ -75,13 +73,13 @@ def count_html_headers(page_title: str, language: str) -> json:
         # Use Pydantic to structure and validate the counts
         counts = HeaderCount(
 
-            h1_count=h1s,
-            h2_count=h2s,
-            h3_count=h3s,
-            h4_count=h4s,
-            h5_count=h5s,
-            h6_count=h6s,
-            total_headers=total
+            h1_count = h1s,
+            h2_count = h2s,
+            h3_count = h3s,
+            h4_count = h4s,
+            h5_count = h5s,
+            h6_count = h6s,
+            total_headers = total
 
         )
 
