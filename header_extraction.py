@@ -1,12 +1,13 @@
 import wikipedia  # Library for fetching Wikipedia content
 import json
 from bs4 import BeautifulSoup
-from pydantic import BaseModel, Field
+from models import HeaderCount
 
 
 # Set up language selection
 def set_wikipedia_language(lang: str) -> None:
     """Set Wikipedia language based on language string"""
+    # TODO: Please use existing Python libraries to manage languages. Should work with all existing and future languages
     if lang.lower() == 'spanish':
         wikipedia.set_lang('es')
     elif lang.lower() == 'german':
@@ -20,18 +21,10 @@ def set_wikipedia_language(lang: str) -> None:
 
 
 # Define a Pydantic model for the output
-class HeaderCount(BaseModel):
-    total_headers: int = Field(..., description="The total number of h1-h6 headers found.")
-    h1_count: int
-    h2_count: int
-    h3_count: int
-    h4_count: int
-    h5_count: int
-    h6_count: int
 
 
 # Function to parse HTML and count headers using Beautiful Soup
-def count_html_headers(page_title: str, language: str) -> json:
+def count_html_headers(page_title: str, language: str) -> json: # TODO: json is not a Python type 
     """Parses HTML content and returns counts of all header tags."""
 
     try:
@@ -119,6 +112,7 @@ if __name__ == "__main__":  # Execute below script if the file is executed direc
     language = language.capitalize()  # Capitalize the first letter of the first language
     second_language = second_language.capitalize()  # Capitalize the first letter of the second language
 
+    # TODO: Code smell here: use a for comprehension to iterage languages, numbered suffixes on otherwise identical variables is bad practice
     # Perform Search in first language
     print(f'Header Details in the {language} Article: ')
 
