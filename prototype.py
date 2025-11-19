@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional
 from fastapi import FastAPI
-from routers import tables, infoboxes, citations, headers
+from routers import tables, infoboxes, citations, headers, images
 from models import ArticleScore
 
 """
@@ -16,6 +16,7 @@ application.include_router(tables.router, prefix="/tables", tags=["tables"])
 application.include_router(infoboxes.router, prefix="/infoboxes", tags=["infoboxes"])
 application.include_router(citations.router, prefix="/citations", tags=["citations"])
 application.include_router(headers.router, prefix="/headers", tags=["headers"])
+application.include_router(images.router, prefix="/images", tags=["images"])
 
 
 @application.get("/")

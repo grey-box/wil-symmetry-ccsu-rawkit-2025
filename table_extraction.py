@@ -3,6 +3,7 @@ import pandas as pd # Pandas for table parsing and DataFrame handling
 from bs4 import BeautifulSoup # Class for HTML parsing
 from io import StringIO # Wrap HTML strings for Read-HTML function on Pandas library
 from typing import List, Dict, Any, Optional
+import numpy as np
 
 def extract_tables_from_wikipedia(page_title: str, language: str) -> List[Dict[str, Any]]:
     """Extracts all tables from a Wikipedia article."""
@@ -32,8 +33,17 @@ def extract_tables_from_wikipedia(page_title: str, language: str) -> List[Dict[s
             try:
                 html_string = StringIO(str(table))
                 df = pd.read_html(html_string)[0]
-                headers = df.columns.tolist()
+                
+                # Replace NaN with empty string and convert all data to string
+                df = df.fillna('')
+                df = df.astype(str)
+                
+                # Handle headers
+                headers = [str(col) for col in df.columns.tolist()]
+                
+                # Handle rows
                 rows = df.values.tolist()
+                
                 caption = table.find('caption')
                 caption_text = caption.get_text() if caption else None
                 

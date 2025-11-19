@@ -56,3 +56,22 @@ class ArticleScore(BaseModel):
     citation_accuracy: float = Field(gt=0, description="Score to determine accuracy, reliability, and credibility of all the citations in the article")
     final_score: float = Field(gt=0.0, description="An aggregated final score assigned to the article based on various aspects")
     details: Dict[str, Any] = Field(default={}, description="Any comments and details assigned to the article for additional information")
+
+
+class WikipediaImage(BaseModel):
+    image_id: str = Field(min_length=1, description="Unique ID for the image")
+    url: str = Field(min_length=1, description="URL of the image")
+    caption: Optional[str] = Field(default=None, description="Caption or description of the image")
+    alt_text: Optional[str] = Field(default=None, description="Alt text of the image")
+
+
+class ImageExtractionRequest(BaseModel):
+    page_title: str = Field(min_length=1, description="Title of the Wikipedia article")
+    language: str = Field(default="english", description="Language of the Wikipedia article")
+
+
+class ImageExtractionResponse(BaseModel):
+    article_title: str = Field(description="Title of the Wikipedia article")
+    language: str = Field(description="Language of the article")
+    number_of_images: int = Field(description="Total number of images found")
+    images: List[WikipediaImage] = Field(description="List of extracted images")
