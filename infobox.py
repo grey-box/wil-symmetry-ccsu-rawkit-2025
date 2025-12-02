@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from fastapi import HTTPException
 from pydantic import BaseModel, Field
 from starlette import status
-from Utility import *
+from utility import *
 
 
 class InfoBoxResponse(BaseModel):
