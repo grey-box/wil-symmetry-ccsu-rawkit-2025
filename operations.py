@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Path
 from Utility import get_translation
 from starlette import status
-import Table, InfoBox, Header, Citation, Images
+import table, infoBox, header, citation, images
 from pydantic import BaseModel, Field
 
 operations_router = APIRouter(
@@ -20,11 +20,11 @@ LANGUAGES = {
 
 class FinalResponse(BaseModel):
     title:str = Field(title="Final Page Title")
-    table_analysis:Table.TableResponse = Field(title="Table Analysis")
-    header_analysis:Header.HeaderCount = Field(title="Header Analysis")
-    info_box:InfoBox.InfoBoxResponse = Field(title="InfoBox Analysis")
-    citations:Citation.CitationResponse = Field(title="Citation Analysis")
-    total_images:int = Field(title="Total Images/Media Files")
+    table_analysis:table.TableResponse = Field(title="Table Analysis")
+    header_analysis:header.HeaderCount = Field(title="Header Analysis")
+    info_box:infobox.InfoBoxResponse = Field(title="InfoBox Analysis")
+    citations:citation.CitationResponse = Field(title="Citation Analysis")
+    total_images:int = Field(title="Total images/Media Files")
 
 
 def calculate_single_score(article_response: FinalResponse) -> float:
@@ -43,15 +43,15 @@ def calculate_single_score(article_response: FinalResponse) -> float:
 
 # --- Helper Function 2: Single Article Analysis ---
 def analyze_single_article(title: str, language: str) -> FinalResponse:
-    """Performs all structural analyses (Table, Header, Infobox, Citation) for a single article."""
+    """Performs all structural analyses (table, header, infobox, citation) for a single article."""
 
     try:
         # Perform all analysis calls
-        table_analysis = Table.analyze_tables(title, language)
-        header_counter = Header.count_html_headers(title, language)
-        infobox_analysis = InfoBox.analyze_infobox(title, language)
-        citation_analysis = Citation.extract_citation_from_wikitext(title, language)
-        image_count = Images.get_image_count(title, language)
+        table_analysis = table.analyze_tables(title, language)
+        header_counter = header.count_html_headers(title, language)
+        infobox_analysis = infobox.analyze_infobox(title, language)
+        citation_analysis = citation.extract_citation_from_wikitext(title, language)
+        image_count = images.get_image_count(title, language)
 
         return FinalResponse(
             title=title,
