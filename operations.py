@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Path
-from Utility import get_translation
+from utility import get_translation
 from starlette import status
 import table, infoBox, header, citation, images
 from pydantic import BaseModel, Field
