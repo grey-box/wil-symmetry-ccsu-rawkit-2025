@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 from pydantic import BaseModel, Field
-from Utility import *
+from utility import *
 from fastapi import HTTPException
 from starlette import status
 import requests
